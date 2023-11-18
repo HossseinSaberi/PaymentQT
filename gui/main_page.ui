@@ -1,0 +1,554 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>556</width>
+    <height>464</height>
+   </rect>
+  </property>
+  <property name="font">
+   <font>
+    <family>B Nazanin</family>
+   </font>
+  </property>
+  <property name="windowTitle">
+   <string notr="true"/>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>../icons/liabilities.png</normaloff>../icons/liabilities.png</iconset>
+  </property>
+  <property name="windowOpacity">
+   <double>11.000000000000000</double>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QHBoxLayout" name="horizontalLayout_3">
+    <item>
+     <widget class="QTabWidget" name="account_tab">
+      <property name="layoutDirection">
+       <enum>Qt::RightToLeft</enum>
+      </property>
+      <property name="autoFillBackground">
+       <bool>true</bool>
+      </property>
+      <property name="tabShape">
+       <enum>QTabWidget::Rounded</enum>
+      </property>
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="input_tab">
+       <attribute name="title">
+        <string>درآمد ها</string>
+       </attribute>
+       <layout class="QHBoxLayout" name="horizontalLayout_4">
+        <item>
+         <widget class="QTableWidget" name="all_input_list">
+          <column>
+           <property name="text">
+            <string>ردیف</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>از</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>مبلغ</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>تاریخ</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>توضیحات</string>
+           </property>
+          </column>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="output_tab">
+       <attribute name="title">
+        <string>هزینه ها</string>
+       </attribute>
+       <layout class="QHBoxLayout" name="horizontalLayout_5">
+        <item>
+         <widget class="QTableWidget" name="all_output_list">
+          <column>
+           <property name="text">
+            <string>ردیف</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>به منظور</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>مبلغ</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>تاریخ</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>توضیحات</string>
+           </property>
+          </column>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="fixed_output_tab">
+       <attribute name="title">
+        <string>هزینه های ثابت</string>
+       </attribute>
+       <layout class="QHBoxLayout" name="horizontalLayout_8">
+        <item>
+         <widget class="QTableWidget" name="all_fixed_output_list">
+          <column>
+           <property name="text">
+            <string>ردیف</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>به شخص</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>به منظور</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>مبلغ</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>تاریخ</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>توضیحات</string>
+           </property>
+          </column>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="installment_tab">
+       <attribute name="title">
+        <string>اقساط</string>
+       </attribute>
+       <layout class="QHBoxLayout" name="horizontalLayout_6">
+        <item>
+         <widget class="QTableWidget" name="all_installment">
+          <column>
+           <property name="text">
+            <string>ردیف</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>موسسه مربوطه</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>کل مبلغ وام</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>قسط هر ماه</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>پرداخت شده</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>باقیمانده</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>تاریخ شروع</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>اخرین پرداخت</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>توضیحات</string>
+           </property>
+          </column>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="saving_tab">
+       <attribute name="title">
+        <string>پس اندازها</string>
+       </attribute>
+       <layout class="QHBoxLayout" name="horizontalLayout_7">
+        <item>
+         <widget class="QTableWidget" name="all_saving_list">
+          <column>
+           <property name="text">
+            <string>ردیف</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>مبلغ</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>محل سرمایه گذاری</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>تاریخ پرداخت</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>آخرین بروز رسانی</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>توضیحات</string>
+           </property>
+          </column>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="debtor_tab">
+       <attribute name="title">
+        <string>طلبکاری</string>
+       </attribute>
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="QTableWidget" name="all_debtor_list">
+          <property name="font">
+           <font>
+            <family>B Nazanin</family>
+           </font>
+          </property>
+          <property name="layoutDirection">
+           <enum>Qt::RightToLeft</enum>
+          </property>
+          <property name="autoFillBackground">
+           <bool>true</bool>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Sunken</enum>
+          </property>
+          <property name="editTriggers">
+           <set>QAbstractItemView::NoEditTriggers</set>
+          </property>
+          <property name="selectionMode">
+           <enum>QAbstractItemView::SingleSelection</enum>
+          </property>
+          <property name="selectionBehavior">
+           <enum>QAbstractItemView::SelectRows</enum>
+          </property>
+          <property name="sortingEnabled">
+           <bool>true</bool>
+          </property>
+          <column>
+           <property name="text">
+            <string>ردیف</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>طرف حساب</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>مبلغ کلی</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>پرداخت شده</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>باقیمانده</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>توضیحات</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>تاریخ ثبت</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>آخرین بروزرسانی</string>
+           </property>
+          </column>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="creditor_tab">
+       <attribute name="title">
+        <string>بدهکاری</string>
+       </attribute>
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <item>
+         <widget class="QTableWidget" name="all_creditor_list">
+          <property name="font">
+           <font>
+            <family>B Nazanin</family>
+           </font>
+          </property>
+          <property name="layoutDirection">
+           <enum>Qt::RightToLeft</enum>
+          </property>
+          <property name="editTriggers">
+           <set>QAbstractItemView::NoEditTriggers</set>
+          </property>
+          <property name="selectionMode">
+           <enum>QAbstractItemView::SingleSelection</enum>
+          </property>
+          <property name="selectionBehavior">
+           <enum>QAbstractItemView::SelectRows</enum>
+          </property>
+          <property name="sortingEnabled">
+           <bool>true</bool>
+          </property>
+          <column>
+           <property name="text">
+            <string>ردیف</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>طرف حساب</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>مبلغ کلی</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>پرداخت شده</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>باقیمانده</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>توضیحات</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>تاریخ ثبت</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>آخرین بروزرسانی</string>
+           </property>
+          </column>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>556</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="layoutDirection">
+    <enum>Qt::RightToLeft</enum>
+   </property>
+   <widget class="QMenu" name="menuadd">
+    <property name="font">
+     <font>
+      <family>B Nazanin</family>
+     </font>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::RightToLeft</enum>
+    </property>
+    <property name="title">
+     <string>افزودن</string>
+    </property>
+    <widget class="QMenu" name="menu">
+     <property name="font">
+      <font>
+       <family>B Nazanin</family>
+       <italic>false</italic>
+      </font>
+     </property>
+     <property name="title">
+      <string>صورت حساب جدید</string>
+     </property>
+     <addaction name="new_input"/>
+     <addaction name="new_output"/>
+     <addaction name="new_fixed_output"/>
+     <addaction name="new_isntallment"/>
+     <addaction name="new_saving"/>
+     <addaction name="new_debt_credit"/>
+    </widget>
+    <addaction name="menu"/>
+    <addaction name="separator"/>
+    <addaction name="new_user"/>
+   </widget>
+   <addaction name="menuadd"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="new_user">
+   <property name="icon">
+    <iconset>
+     <normaloff>../icons/debt.png</normaloff>../icons/debt.png</iconset>
+   </property>
+   <property name="text">
+    <string>طرف حساب جدید</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>B Nazanin</family>
+    </font>
+   </property>
+  </action>
+  <action name="action">
+   <property name="text">
+    <string>درآمد جدید</string>
+   </property>
+  </action>
+  <action name="action_2">
+   <property name="text">
+    <string>هزینه جدید</string>
+   </property>
+  </action>
+  <action name="new_input">
+   <property name="text">
+    <string>درآمد جدید</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>B Nazanin</family>
+    </font>
+   </property>
+  </action>
+  <action name="new_output">
+   <property name="text">
+    <string>هزینه جدید</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>B Nazanin</family>
+    </font>
+   </property>
+  </action>
+  <action name="new_fixed_output">
+   <property name="text">
+    <string>هزینه ثابت جدید</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>B Nazanin</family>
+    </font>
+   </property>
+  </action>
+  <action name="new_isntallment">
+   <property name="text">
+    <string>قسط جدید</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>B Nazanin</family>
+    </font>
+   </property>
+  </action>
+  <action name="new_saving">
+   <property name="text">
+    <string>پس انداز جدید</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>B Nazanin</family>
+    </font>
+   </property>
+  </action>
+  <action name="new_debt_credit">
+   <property name="text">
+    <string>طلب / بدهی جدید</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>B Nazanin</family>
+    </font>
+   </property>
+  </action>
+  <action name="new_credit">
+   <property name="text">
+    <string>بدهی جدید</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>B Nazanin</family>
+    </font>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
