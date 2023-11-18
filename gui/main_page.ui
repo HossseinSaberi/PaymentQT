@@ -48,9 +48,17 @@
        <layout class="QHBoxLayout" name="horizontalLayout_4">
         <item>
          <widget class="QTableWidget" name="all_input_list">
+          <property name="sizeAdjustPolicy">
+           <enum>QAbstractScrollArea::AdjustToContents</enum>
+          </property>
           <column>
            <property name="text">
             <string>ردیف</string>
+           </property>
+           <property name="font">
+            <font>
+             <family>B Nazanin</family>
+            </font>
            </property>
           </column>
           <column>
@@ -84,9 +92,17 @@
        <layout class="QHBoxLayout" name="horizontalLayout_5">
         <item>
          <widget class="QTableWidget" name="all_output_list">
+          <property name="sizeAdjustPolicy">
+           <enum>QAbstractScrollArea::AdjustToContents</enum>
+          </property>
           <column>
            <property name="text">
             <string>ردیف</string>
+           </property>
+           <property name="font">
+            <font>
+             <family>B Nazanin</family>
+            </font>
            </property>
           </column>
           <column>
@@ -120,9 +136,17 @@
        <layout class="QHBoxLayout" name="horizontalLayout_8">
         <item>
          <widget class="QTableWidget" name="all_fixed_output_list">
+          <property name="sizeAdjustPolicy">
+           <enum>QAbstractScrollArea::AdjustToContents</enum>
+          </property>
           <column>
            <property name="text">
             <string>ردیف</string>
+           </property>
+           <property name="font">
+            <font>
+             <family>B Nazanin</family>
+            </font>
            </property>
           </column>
           <column>
@@ -161,49 +185,87 @@
        <layout class="QHBoxLayout" name="horizontalLayout_6">
         <item>
          <widget class="QTableWidget" name="all_installment">
+          <property name="sizeAdjustPolicy">
+           <enum>QAbstractScrollArea::AdjustToContents</enum>
+          </property>
           <column>
            <property name="text">
             <string>ردیف</string>
+           </property>
+           <property name="font">
+            <font>
+             <family>B Nazanin</family>
+            </font>
            </property>
           </column>
           <column>
            <property name="text">
             <string>موسسه مربوطه</string>
            </property>
+           <property name="font">
+            <font>
+             <family>B Nazanin</family>
+            </font>
+           </property>
           </column>
           <column>
            <property name="text">
             <string>کل مبلغ وام</string>
+           </property>
+           <property name="font">
+            <font>
+             <family>B Nazanin</family>
+            </font>
            </property>
           </column>
           <column>
            <property name="text">
             <string>قسط هر ماه</string>
            </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>پرداخت شده</string>
+           <property name="font">
+            <font>
+             <family>B Nazanin</family>
+            </font>
            </property>
           </column>
           <column>
            <property name="text">
             <string>باقیمانده</string>
            </property>
+           <property name="font">
+            <font>
+             <family>B Nazanin</family>
+            </font>
+           </property>
           </column>
           <column>
            <property name="text">
             <string>تاریخ شروع</string>
+           </property>
+           <property name="font">
+            <font>
+             <family>B Nazanin</family>
+            </font>
            </property>
           </column>
           <column>
            <property name="text">
             <string>اخرین پرداخت</string>
            </property>
+           <property name="font">
+            <font>
+             <family>B Nazanin</family>
+            </font>
+           </property>
           </column>
           <column>
            <property name="text">
             <string>توضیحات</string>
+           </property>
+           <property name="font">
+            <font>
+             <family>B Nazanin</family>
+            </font>
            </property>
           </column>
          </widget>
@@ -217,9 +279,17 @@
        <layout class="QHBoxLayout" name="horizontalLayout_7">
         <item>
          <widget class="QTableWidget" name="all_saving_list">
+          <property name="sizeAdjustPolicy">
+           <enum>QAbstractScrollArea::AdjustToContents</enum>
+          </property>
           <column>
            <property name="text">
             <string>ردیف</string>
+           </property>
+           <property name="font">
+            <font>
+             <family>B Nazanin</family>
+            </font>
            </property>
           </column>
           <column>
@@ -274,6 +344,9 @@
           </property>
           <property name="frameShadow">
            <enum>QFrame::Sunken</enum>
+          </property>
+          <property name="sizeAdjustPolicy">
+           <enum>QAbstractScrollArea::AdjustToContents</enum>
           </property>
           <property name="editTriggers">
            <set>QAbstractItemView::NoEditTriggers</set>
@@ -345,6 +418,9 @@
           </property>
           <property name="layoutDirection">
            <enum>Qt::RightToLeft</enum>
+          </property>
+          <property name="sizeAdjustPolicy">
+           <enum>QAbstractScrollArea::AdjustToContents</enum>
           </property>
           <property name="editTriggers">
            <set>QAbstractItemView::NoEditTriggers</set>
@@ -443,7 +519,7 @@
      <addaction name="new_input"/>
      <addaction name="new_output"/>
      <addaction name="new_fixed_output"/>
-     <addaction name="new_isntallment"/>
+     <addaction name="new_installment"/>
      <addaction name="new_saving"/>
      <addaction name="new_debt_credit"/>
     </widget>
@@ -508,7 +584,7 @@
     </font>
    </property>
   </action>
-  <action name="new_isntallment">
+  <action name="new_installment">
    <property name="text">
     <string>قسط جدید</string>
    </property>

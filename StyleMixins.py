@@ -1,20 +1,19 @@
 from PyQt5.QtGui import QColor
 
 class TableItemStylingMixin:
-    def debtor_creditor_color_styles(self, qtablewidget_obj):
-        color = self.set_color_by_money_value(qtablewidget_obj)
-        color = QColor(color)
+    def item_color_styles(self, qtablewidget_obj, color):
+        color = self.set_color_by_money_value(qtablewidget_obj, color)
         qtablewidget_obj.setForeground(color)
         return qtablewidget_obj
 
     @staticmethod
-    def set_color_by_money_value(item):
+    def set_color_by_money_value(item, color):
         item_value = item.text()
         if ',' in item_value:
-            money_value = int(item_value.replace(',', ''))
-            color = 'RED' if money_value < 0 else 'GREEN'
-            return color
-        return 'BLACK'
+            color = QColor(color)
+        else:
+            color = QColor('BLACK')
+        return color
 
 
 class TabStylingMixin:

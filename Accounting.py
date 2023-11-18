@@ -1,4 +1,5 @@
-from AccountingDialog import MainPageDialog, AddNewPaymentDialog, AddNewUserDialog
+from datetime import datetime
+from AccountingDialog import MainPageDialog, AddNewPaymentDialog, AddNewUserDialog, AddNewInstallmentDialog
 from PyQt5 import QtWidgets
 from PyQt5.QtCore import Qt
 from DataAccess import Queries, ConnectToDB
@@ -39,6 +40,7 @@ class Account(InitialVar, TotalStyleMixin):
     def check_dlg_trigger(self):
         self.dlg.new_debt_credit.triggered.connect(self.show_new_pay_page)
         self.dlg.new_user.triggered.connect(self.show_new_user_page)
+        self.dlg.new_installment.triggered.connect(self.show_new_installment_page)
 
     def check_anu_trigger(self):
         if self.anu:
@@ -50,7 +52,7 @@ class Account(InitialVar, TotalStyleMixin):
 
     def check_ani_trigger(self):
         if self.ani:
-            pass
+            self.ani.add_new_installment_QB.clicked.connect(self.create_new_installment)
 
     def check_ais_trigger(self):
         if self.ais:
@@ -74,6 +76,7 @@ class Account(InitialVar, TotalStyleMixin):
         self.create_main_page_dialog()
         self.create_add_new_payment_dialog()
         self.create_add_new_user_dialog()
+        self.create_add_new_installment_dialog()
 
     def create_main_page_dialog(self):
         self.dlg = MainPageDialog()
@@ -88,10 +91,23 @@ class Account(InitialVar, TotalStyleMixin):
         self.add_user_win = QtWidgets.QDialog()
         self.anu.setupUi(self.add_user_win)
 
+    def create_add_new_installment_dialog(self):
+        self.ani = AddNewInstallmentDialog()
+        self.add_installment_win = QtWidgets.QDialog()
+        self.ani.setupUi(self.add_installment_win)
+
     def create_new_payment(self):
         new_payment_details = self.read_data_from_new_payment_form()
         self.query_handler.insert_new_payment(new_payment_details)
         self.add_payment_win.close()
+        self.update_main_window()
+
+    def create_new_installment(self):
+        new_installment_details = self.read_data_from_new_installment_form()
+        self.query_handler.insert_new_isntallment(new_installment_details)
+        self.add_installment_win.close()
+        self.update_main_window()
+
 
     def create_new_user(self):
         new_user_details = self.read_data_from_new_user_form()
@@ -107,6 +123,15 @@ class Account(InitialVar, TotalStyleMixin):
         new_user_details['address'] = self.anu.address_TE.toPlainText()
         return new_user_details
 
+    def read_data_from_new_installment_form(self):
+        new_installment_details = dict()
+        new_installment_details['office_id'] = self.ani.office_name_list_CB.currentData()
+        new_installment_details['total_money'] = self.ani.total_money_QSB.value()
+        new_installment_details['installment'] = self.ani.each_installment_QSB.value()
+        new_installment_details['description'] = self.ani.description_TE.toPlainText()
+        new_installment_details['start_date'] = self.ani.start_date_LE.text()
+        return new_installment_details
+
     def read_data_from_new_payment_form(self):
         new_payment_details = dict()
         new_payment_details['user_id'] = self.anp.user_name_list_CB.currentData()
@@ -120,15 +145,26 @@ class Account(InitialVar, TotalStyleMixin):
     def show_new_user_page(self):
         self.add_user_win.show()
 
+    def show_new_installment_page(self):
+        self.add_installment_win.show()
+        user_list = self.query_handler.get_user_list('موسسه')
+        self.add_users_to_users_list_cmb(user_list, self.ani.office_name_list_CB)
+
     def show_new_pay_page(self):
         self.add_payment_win.show()
-        user_list = self.query_handler.get_user_list()
-        self.add_users_to_users_list_cmb(user_list)
+        user_list = self.query_handler.get_user_list('شخص')
+        self.add_users_to_users_list_cmb(user_list, self.anp.user_name_list_CB)
 
-    def add_users_to_users_list_cmb(self, users_list):
-        self.anp.user_name_list_CB.clear()
+    @staticmethod
+    def add_users_to_users_list_cmb(users_list, qb_object):
+        qb_object.clear()
         for each_user in users_list:
-            self.anp.user_name_list_CB.addItem(each_user[1], each_user[0])
+            qb_object.addItem(each_user[1], each_user[0])
+
+    def add_users_to_users_list_cmb1(self, users_list):
+        self.ani.office_name_list_CB.clear()
+        for each_user in users_list:
+            self.ani.office_name_list_CB.addItem(each_user[1], each_user[0])
 
     def get_payment_spin_box_value(self):
         total = self.anp.total_money_QSB.value()
@@ -149,40 +185,49 @@ class Account(InitialVar, TotalStyleMixin):
     def update_main_window(self):
         self.update_debtor_list()
         self.update_creditor_list()
+        self.update_installment_list()
         # unchange each tab , that tab update ,
 
     def update_debtor_list(self):
         result = self.query_handler.get_debtor_creditor_list('قرض داده شده')
         for each_result in result:
-            payment_details = self.clearize_data_to_insert_qtable_widget(each_result)
-            self.add_new_row_to_main_list(self.dlg.all_debtor_list, payment_details)
+            payment_details = self.clear_data_to_insert_qtable_widget(each_result)
+            self.add_new_row_to_main_list(self.dlg.all_debtor_list, payment_details, 'GREEN')
 
     def update_creditor_list(self):
         result = self.query_handler.get_debtor_creditor_list('قرض گرفته شده')
         for each_result in result:
-            payment_details = self.clearize_data_to_insert_qtable_widget(each_result)
-            self.add_new_row_to_main_list(self.dlg.all_creditor_list, payment_details)
+            payment_details = self.clear_data_to_insert_qtable_widget(each_result)
+            self.add_new_row_to_main_list(self.dlg.all_creditor_list, payment_details, 'RED')
 
-    def add_new_row_to_main_list(self, obj_name, data):
-        obj_name.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustToContents)
-        obj_name.resizeColumnsToContents()
+    def update_installment_list(self):
+        result = self.query_handler.get_installment_list()
+        for each_result in result:
+            installment_details = self.clear_data_to_insert_qtable_widget(each_result)
+            self.add_new_row_to_main_list(self.dlg.all_installment, installment_details, 'RED')
+
+    def add_new_row_to_main_list(self, obj_name, data, color):
         row_position = obj_name.rowCount()
         obj_name.insertRow(row_position)
         for index, each_item in enumerate(data.items(), start=0):
             item = QtWidgets.QTableWidgetItem(str(each_item[1]))
-            self.debtor_creditor_color_styles(item)
+            self.item_color_styles(item, color)
             item.setTextAlignment(Qt.AlignCenter)
             obj_name.setItem(row_position, index, item)
+        obj_name.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustToContents)
+        obj_name.resizeColumnsToContents()
 
     @staticmethod
-    def clearize_data_to_insert_qtable_widget(data: dict):
-        payment_details = dict()
-        payment_details['number'] = data['pid']
-        payment_details['user_name'] = data['full_name']
-        payment_details['total_price'] = f"{data['total_price']:,}"
-        payment_details['paied'] = f"{data['paied']:,}"
-        payment_details['remainder'] = f"{data['remainder']:,}"
-        payment_details['first_date'] = JDateUtils.convert_to_jalali(data['first_date'].date())
-        payment_details['last_update'] = JDateUtils.convert_to_jalali(data['last_update'].date()) if data[
-            'last_update'] else '-'
-        return payment_details
+    def clear_data_to_insert_qtable_widget(data: dict):
+        details = dict()
+        for key, value in data.items():
+            details[key] = value
+            if isinstance(value, datetime):
+                details[key] = JDateUtils.convert_to_jalali(data[key].date()) if data[key] else '-'
+            elif isinstance(value, int):
+                details[key] = f"{data[key]:,}"
+            else:
+                details[key] = value if value else '-'
+
+
+        return details

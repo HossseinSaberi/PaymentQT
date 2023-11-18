@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>273</width>
-    <height>305</height>
+    <height>316</height>
    </rect>
   </property>
   <property name="font">
@@ -95,10 +95,14 @@
     </widget>
    </item>
    <item row="7" column="0">
-    <widget class="QTextEdit" name="description_TE"/>
+    <widget class="QTextEdit" name="description_TE">
+     <property name="tabChangesFocus">
+      <bool>true</bool>
+     </property>
+    </widget>
    </item>
    <item row="2" column="0">
-    <widget class="QDoubleSpinBox" name="each_cose_QSB">
+    <widget class="QDoubleSpinBox" name="each_installment_QSB">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
        <horstretch>0</horstretch>
@@ -136,17 +140,20 @@
     </widget>
    </item>
    <item row="6" column="0">
-    <widget class="QLineEdit" name="date_LE">
+    <widget class="QLineEdit" name="start_date_LE">
      <property name="minimumSize">
       <size>
        <width>0</width>
        <height>27</height>
       </size>
      </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
     </widget>
    </item>
    <item row="8" column="0">
-    <widget class="QPushButton" name="add_new_cost_QB">
+    <widget class="QPushButton" name="add_new_installment_QB">
      <property name="text">
       <string>افزودن</string>
      </property>
@@ -202,7 +209,7 @@
     </widget>
    </item>
    <item row="0" column="0">
-    <widget class="QComboBox" name="user_CMB">
+    <widget class="QComboBox" name="office_name_list_CB">
      <property name="minimumSize">
       <size>
        <width>0</width>

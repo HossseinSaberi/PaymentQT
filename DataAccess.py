@@ -55,6 +55,7 @@ class InitDB:
         self.initial_types()
         self.create_user_table()
         self.create_payment_table()
+        self.create_installment_table()
 
     def create_user_table(self):
         cursor = self.db_conn.cursor()
@@ -64,7 +65,7 @@ class InitDB:
             full_name text NOT NULL,
             phone_number text NOT NULL,
             address text NOT NULL,
-            description text NOT NULL,
+            description text NOT NULL DEFAULT ' - '::text,,
             uid serial4 NOT NULL,
             user_type public.valid_user_type NOT NULL,
             CONSTRAINT users_pk PRIMARY KEY (uid)
@@ -98,6 +99,37 @@ class InitDB:
                 public.payments for each row execute function first_insert();
             ALTER TABLE public.payments ADD CONSTRAINT payments_fk FOREIGN KEY (user_id) REFERENCES public.users(uid) ON DELETE CASCADE;
             """
+        cursor.execute(query)
+
+    def create_installment_table(self):
+        cursor = self.db_conn.cursor()
+        query = """
+        DROP TABLE IF EXISTS public.installment;
+        
+        CREATE TABLE public.installment (
+            office_id int4 NOT NULL,
+            total_money  int8 NOT NULL,
+            installment_money int8 NOT NULL,
+            remainder_money int8 NOT NULL DEFAULT 0,
+            inid serial4 NOT NULL,
+            last_update timestamp NULL,
+            first_date timestamp NULL,
+            start_date text NOT NULL,
+            description text NOT NULL DEFAULT ' - '::text,
+            CONSTRAINT payments_pk PRIMARY KEY (inid)
+        );
+        
+        -- Table Triggers
+        
+        create trigger update_last_update before
+        update
+            on
+            public.installment for each row execute function last_update();
+        create trigger set_first_date before
+        insert
+            on
+            public.installment for each row execute function first_insert();
+    """
         cursor.execute(query)
 
     def initial_types(self):
@@ -152,11 +184,13 @@ class Queries:
     def __init__(self, db_connection):
         self.db_conn = db_connection
 
-    def get_user_list(self):
+    def get_user_list(self, type_filter=None):
         with self.db_conn.cursor() as cursor:
+            additional_query = ";" if not type_filter else " WHERE user_type = '{}';".format(type_filter)
             query = """
-                        SELECT  uid , full_name  FROM users;
+                        SELECT  uid , full_name  FROM users
                      """
+            query += additional_query
             cursor.execute(query)
             result = cursor.fetchall()
         return result
@@ -170,7 +204,8 @@ class Queries:
                          VALUES
                          ('{}','{}','{}','{}','{}')
                          """.format(
-                    user_details['name'], user_details['phone_number'],user_details['address'], user_details['description'], user_details['type'])
+                    user_details['name'], user_details['phone_number'], user_details['address'],
+                    user_details['description'], user_details['type'])
                 cursor.execute(query)
             except Exception as e:
                 print(e)
@@ -182,20 +217,45 @@ class Queries:
                 (user_id, total_price, remainder, paied, description, status)
                 VALUES
                 ({},{},{},{},'{}','{}')""".format(payment_details['user_id'], payment_details['total_money'],
-                                             payment_details['remainder'], payment_details['paied_money'],
-                                             payment_details['description'] , payment_details['status'])
-            print(query)
+                                                  payment_details['remainder'], payment_details['paied_money'],
+                                                  payment_details['description'], payment_details['status'])
             cursor.execute(query)
+
+    def insert_new_isntallment(self, installment_details: dict):
+        with self.db_conn.cursor() as cursor:
+            try:
+                query = """
+                    INSERT INTO public.installment
+                    (office_id, total_money, installment_money, start_date,description)
+                    VALUES
+                    ({},{},{},'{}','{}')""".format(installment_details['office_id'], installment_details['total_money'],
+                                                   installment_details['installment'], installment_details['start_date'],
+                                                   installment_details['description'])
+                cursor.execute(query)
+            except Exception as e:
+                print(e)
 
     def get_debtor_creditor_list(self, status):
         with self.db_conn.cursor(cursor_factory=extras.DictCursor) as cursor:
             query = """
-                SELECT p.* , full_name FROM payments p 
+                SELECT p.pid, u.full_name , p.total_price , p.paied , p.remainder , p.description , p.first_date , p.last_update FROM payments p 
                 INNER JOIN users u
                 ON
                 p.user_id = u.uid
                 WHERE p.status = '{}'
             """.format(status)
+            cursor.execute(query)
+            result = cursor.fetchall()
+            return result
+
+    def get_installment_list(self):
+        with self.db_conn.cursor(cursor_factory=extras.DictCursor) as cursor:
+            query = """
+                SELECT i.inid, u.full_name, i.total_money , i.installment_money , i.remainder_money , i.start_date ,i.last_update , i.description FROM installment i 
+                INNER JOIN users u
+                ON
+                i.office_id = u.uid
+            """
             cursor.execute(query)
             result = cursor.fetchall()
             return result
