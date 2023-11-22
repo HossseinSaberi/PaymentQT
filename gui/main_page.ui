@@ -51,6 +51,9 @@
           <property name="sizeAdjustPolicy">
            <enum>QAbstractScrollArea::AdjustToContents</enum>
           </property>
+          <attribute name="horizontalHeaderStretchLastSection">
+           <bool>true</bool>
+          </attribute>
           <column>
            <property name="text">
             <string>ردیف</string>
@@ -65,20 +68,40 @@
            <property name="text">
             <string>از</string>
            </property>
+           <property name="font">
+            <font>
+             <family>B Nazanin</family>
+            </font>
+           </property>
           </column>
           <column>
            <property name="text">
             <string>مبلغ</string>
+           </property>
+           <property name="font">
+            <font>
+             <family>B Nazanin</family>
+            </font>
            </property>
           </column>
           <column>
            <property name="text">
             <string>تاریخ</string>
            </property>
+           <property name="font">
+            <font>
+             <family>B Nazanin</family>
+            </font>
+           </property>
           </column>
           <column>
            <property name="text">
             <string>توضیحات</string>
+           </property>
+           <property name="font">
+            <font>
+             <family>B Nazanin</family>
+            </font>
            </property>
           </column>
          </widget>
@@ -95,6 +118,9 @@
           <property name="sizeAdjustPolicy">
            <enum>QAbstractScrollArea::AdjustToContents</enum>
           </property>
+          <attribute name="verticalHeaderStretchLastSection">
+           <bool>true</bool>
+          </attribute>
           <column>
            <property name="text">
             <string>ردیف</string>
@@ -109,20 +135,40 @@
            <property name="text">
             <string>به منظور</string>
            </property>
+           <property name="font">
+            <font>
+             <family>B Nazanin</family>
+            </font>
+           </property>
           </column>
           <column>
            <property name="text">
             <string>مبلغ</string>
+           </property>
+           <property name="font">
+            <font>
+             <family>B Nazanin</family>
+            </font>
            </property>
           </column>
           <column>
            <property name="text">
             <string>تاریخ</string>
            </property>
+           <property name="font">
+            <font>
+             <family>B Nazanin</family>
+            </font>
+           </property>
           </column>
           <column>
            <property name="text">
             <string>توضیحات</string>
+           </property>
+           <property name="font">
+            <font>
+             <family>B Nazanin</family>
+            </font>
            </property>
           </column>
          </widget>
@@ -153,25 +199,50 @@
            <property name="text">
             <string>به شخص</string>
            </property>
+           <property name="font">
+            <font>
+             <family>B Nazanin</family>
+            </font>
+           </property>
           </column>
           <column>
            <property name="text">
             <string>به منظور</string>
+           </property>
+           <property name="font">
+            <font>
+             <family>B Nazanin</family>
+            </font>
            </property>
           </column>
           <column>
            <property name="text">
             <string>مبلغ</string>
            </property>
+           <property name="font">
+            <font>
+             <family>B Nazanin</family>
+            </font>
+           </property>
           </column>
           <column>
            <property name="text">
             <string>تاریخ</string>
            </property>
+           <property name="font">
+            <font>
+             <family>B Nazanin</family>
+            </font>
+           </property>
           </column>
           <column>
            <property name="text">
             <string>توضیحات</string>
+           </property>
+           <property name="font">
+            <font>
+             <family>B Nazanin</family>
+            </font>
            </property>
           </column>
          </widget>
@@ -296,25 +367,50 @@
            <property name="text">
             <string>مبلغ</string>
            </property>
+           <property name="font">
+            <font>
+             <family>B Nazanin</family>
+            </font>
+           </property>
           </column>
           <column>
            <property name="text">
             <string>محل سرمایه گذاری</string>
+           </property>
+           <property name="font">
+            <font>
+             <family>B Nazanin</family>
+            </font>
            </property>
           </column>
           <column>
            <property name="text">
             <string>تاریخ پرداخت</string>
            </property>
+           <property name="font">
+            <font>
+             <family>B Nazanin</family>
+            </font>
+           </property>
           </column>
           <column>
            <property name="text">
             <string>آخرین بروز رسانی</string>
            </property>
+           <property name="font">
+            <font>
+             <family>B Nazanin</family>
+            </font>
+           </property>
           </column>
           <column>
            <property name="text">
             <string>توضیحات</string>
+           </property>
+           <property name="font">
+            <font>
+             <family>B Nazanin</family>
+            </font>
            </property>
           </column>
          </widget>
@@ -387,17 +483,17 @@
           </column>
           <column>
            <property name="text">
-            <string>توضیحات</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
             <string>تاریخ ثبت</string>
            </property>
           </column>
           <column>
            <property name="text">
             <string>آخرین بروزرسانی</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>توضیحات</string>
            </property>
           </column>
          </widget>
@@ -461,17 +557,17 @@
           </column>
           <column>
            <property name="text">
-            <string>توضیحات</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
             <string>تاریخ ثبت</string>
            </property>
           </column>
           <column>
            <property name="text">
             <string>آخرین بروزرسانی</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>توضیحات</string>
            </property>
           </column>
          </widget>

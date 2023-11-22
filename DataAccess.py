@@ -101,6 +101,25 @@ class InitDB:
             """
         cursor.execute(query)
 
+    def create_salary_table(self):
+        cursor = self.db_conn.cursor()
+        query = """
+        DROP TABLE IF EXISTS public.salary;
+        CREATE TABLE public.salary (
+            office_id int4 NOT NULL,
+            total_money int8 NOT NULL,
+            sid serial4 NOT NULL,
+            first_date timestamp NULL,
+            description text NOT NULL DEFAULT ' - '::text,
+            CONSTRAINT salary_pk PRIMARY KEY (sid)
+        );
+        create trigger set_first_date before
+        insert
+            on
+            public.salary for each row execute function first_insert();
+    """
+        cursor.execute(query)
+
     def create_installment_table(self):
         cursor = self.db_conn.cursor()
         query = """
@@ -235,10 +254,23 @@ class Queries:
             except Exception as e:
                 print(e)
 
+    def insert_new_salary(self, salary_details: dict):
+        with self.db_conn.cursor() as cursor:
+            try:
+                query = """
+                    INSERT INTO public.salary
+                    (office_id, total_money,description)
+                    VALUES
+                    ({},{},'{}')""".format(salary_details['office_id'], salary_details['total_money'],
+                                                   salary_details['description'])
+                cursor.execute(query)
+            except Exception as e:
+                print(e)
+
     def get_debtor_creditor_list(self, status):
         with self.db_conn.cursor(cursor_factory=extras.DictCursor) as cursor:
             query = """
-                SELECT p.pid, u.full_name , p.total_price , p.paied , p.remainder , p.description , p.first_date , p.last_update FROM payments p 
+                SELECT p.pid, u.full_name , p.total_price , p.paied , p.remainder , p.first_date , p.last_update , p.description FROM payments p 
                 INNER JOIN users u
                 ON
                 p.user_id = u.uid
@@ -255,6 +287,18 @@ class Queries:
                 INNER JOIN users u
                 ON
                 i.office_id = u.uid
+            """
+            cursor.execute(query)
+            result = cursor.fetchall()
+            return result
+
+    def get_salary_list(self):
+        with self.db_conn.cursor(cursor_factory=extras.DictCursor) as cursor:
+            query = """
+                SELECT s.sid, u.full_name, s.total_money, s.first_date ,  s.description FROM salary s 
+                INNER JOIN users u
+                ON
+                s.office_id = u.uid
             """
             cursor.execute(query)
             result = cursor.fetchall()
