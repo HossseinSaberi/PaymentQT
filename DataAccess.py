@@ -56,6 +56,8 @@ class InitDB:
         self.create_user_table()
         self.create_payment_table()
         self.create_installment_table()
+        self.create_salary_table()
+        self.create_static_cost_table()
 
     def create_user_table(self):
         cursor = self.db_conn.cursor()
@@ -117,6 +119,24 @@ class InitDB:
         insert
             on
             public.salary for each row execute function first_insert();
+    """
+        cursor.execute(query)
+
+    def create_static_cost_table(self):
+        cursor = self.db_conn.cursor()
+        query = """
+            DROP TABLE if exists public.static_cost;
+            
+            CREATE TABLE public.static_cost (
+                scid serial4 NOT NULL,
+                subject text NOT NULL,
+                total_money int8 NOT NULL,
+                paied_date text NULL,
+                description text NULL,
+                static_uid int8 NOT NULL,
+                CONSTRAINT static_cost_pk PRIMARY KEY (scid),
+                CONSTRAINT static_cost_fk FOREIGN KEY (scid) REFERENCES public.users(uid)
+);
     """
         cursor.execute(query)
 
@@ -267,6 +287,19 @@ class Queries:
             except Exception as e:
                 print(e)
 
+    def insert_new_static_cost(self, static_cost_details: dict):
+        with self.db_conn.cursor() as cursor:
+            try:
+                query = """
+                    INSERT INTO public.static_cost
+                    (static_uid, subject, total_money, description)
+                    VALUES
+                    ({},'{}',{},'{}')""".format(static_cost_details['static_user_id'], static_cost_details['subject'], static_cost_details['total_money'],
+                                                   static_cost_details['description'])
+                cursor.execute(query)
+            except Exception as e:
+                print(e)
+
     def get_debtor_creditor_list(self, status):
         with self.db_conn.cursor(cursor_factory=extras.DictCursor) as cursor:
             query = """
@@ -299,6 +332,18 @@ class Queries:
                 INNER JOIN users u
                 ON
                 s.office_id = u.uid
+            """
+            cursor.execute(query)
+            result = cursor.fetchall()
+            return result
+
+    def get_static_cost_list(self):
+        with self.db_conn.cursor(cursor_factory=extras.DictCursor) as cursor:
+            query = """
+                SELECT s.scid, s.subject, u.full_name, s.total_money, s.paied_date ,  s.description FROM static_cost s 
+                INNER JOIN users u
+                ON
+                s.static_uid = u.uid
             """
             cursor.execute(query)
             result = cursor.fetchall()

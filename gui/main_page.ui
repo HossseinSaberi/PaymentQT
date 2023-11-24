@@ -51,6 +51,9 @@
           <property name="sizeAdjustPolicy">
            <enum>QAbstractScrollArea::AdjustToContents</enum>
           </property>
+          <property name="sortingEnabled">
+           <bool>true</bool>
+          </property>
           <attribute name="horizontalHeaderStretchLastSection">
            <bool>true</bool>
           </attribute>
@@ -118,6 +121,9 @@
           <property name="sizeAdjustPolicy">
            <enum>QAbstractScrollArea::AdjustToContents</enum>
           </property>
+          <property name="sortingEnabled">
+           <bool>true</bool>
+          </property>
           <attribute name="verticalHeaderStretchLastSection">
            <bool>true</bool>
           </attribute>
@@ -181,23 +187,19 @@
        </attribute>
        <layout class="QHBoxLayout" name="horizontalLayout_8">
         <item>
-         <widget class="QTableWidget" name="all_fixed_output_list">
+         <widget class="QTableWidget" name="all_static_output_list">
           <property name="sizeAdjustPolicy">
            <enum>QAbstractScrollArea::AdjustToContents</enum>
           </property>
+          <property name="sortingEnabled">
+           <bool>true</bool>
+          </property>
+          <attribute name="horizontalHeaderStretchLastSection">
+           <bool>true</bool>
+          </attribute>
           <column>
            <property name="text">
             <string>ردیف</string>
-           </property>
-           <property name="font">
-            <font>
-             <family>B Nazanin</family>
-            </font>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>به شخص</string>
            </property>
            <property name="font">
             <font>
@@ -217,6 +219,16 @@
           </column>
           <column>
            <property name="text">
+            <string>به شخص</string>
+           </property>
+           <property name="font">
+            <font>
+             <family>B Nazanin</family>
+            </font>
+           </property>
+          </column>
+          <column>
+           <property name="text">
             <string>مبلغ</string>
            </property>
            <property name="font">
@@ -227,7 +239,7 @@
           </column>
           <column>
            <property name="text">
-            <string>تاریخ</string>
+            <string>آخرین پرداخت</string>
            </property>
            <property name="font">
             <font>
@@ -258,6 +270,9 @@
          <widget class="QTableWidget" name="all_installment">
           <property name="sizeAdjustPolicy">
            <enum>QAbstractScrollArea::AdjustToContents</enum>
+          </property>
+          <property name="sortingEnabled">
+           <bool>true</bool>
           </property>
           <column>
            <property name="text">
@@ -352,6 +367,9 @@
          <widget class="QTableWidget" name="all_saving_list">
           <property name="sizeAdjustPolicy">
            <enum>QAbstractScrollArea::AdjustToContents</enum>
+          </property>
+          <property name="sortingEnabled">
+           <bool>true</bool>
           </property>
           <column>
            <property name="text">
@@ -614,7 +632,7 @@
      </property>
      <addaction name="new_input"/>
      <addaction name="new_output"/>
-     <addaction name="new_fixed_output"/>
+     <addaction name="new_static_output"/>
      <addaction name="new_installment"/>
      <addaction name="new_saving"/>
      <addaction name="new_debt_credit"/>
@@ -670,7 +688,7 @@
     </font>
    </property>
   </action>
-  <action name="new_fixed_output">
+  <action name="new_static_output">
    <property name="text">
     <string>هزینه ثابت جدید</string>
    </property>

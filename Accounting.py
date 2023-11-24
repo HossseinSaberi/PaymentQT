@@ -1,5 +1,5 @@
 from datetime import datetime
-from AccountingDialog import MainPageDialog, AddNewPaymentDialog, AddNewUserDialog, AddNewInstallmentDialog, AddNewSalaryDialog
+from AccountingDialog import MainPageDialog, AddNewPaymentDialog, AddNewUserDialog, AddNewInstallmentDialog, AddNewSalaryDialog , AddNewStaticDialog
 from PyQt5 import QtWidgets
 from PyQt5.QtCore import Qt
 from DataAccess import Queries, ConnectToDB
@@ -39,6 +39,7 @@ class Account(InitialVar, TotalStyleMixin):
 
     def check_dlg_trigger(self):
         self.dlg.new_debt_credit.triggered.connect(self.show_new_pay_page)
+        self.dlg.new_static_output.triggered.connect(self.show_new_static_cost_page)
         self.dlg.new_user.triggered.connect(self.show_new_user_page)
         self.dlg.new_installment.triggered.connect(self.show_new_installment_page)
         self.dlg.new_input.triggered.connect(self.show_new_salary_page)
@@ -61,7 +62,7 @@ class Account(InitialVar, TotalStyleMixin):
 
     def check_asc_trigger(self):
         if self.asc:
-            pass
+            self.asc.add_new_stastic_cost_QB.clicked.connect(self.create_new_static_cost)
 
     def check_anc_trigger(self):
         if self.anc:
@@ -79,6 +80,7 @@ class Account(InitialVar, TotalStyleMixin):
         self.create_add_new_user_dialog()
         self.create_add_new_installment_dialog()
         self.create_add_new_salary_dialog()
+        self.create_add_new_static_cost_dialog()
 
     def create_main_page_dialog(self):
         self.dlg = MainPageDialog()
@@ -97,6 +99,11 @@ class Account(InitialVar, TotalStyleMixin):
         self.ani = AddNewInstallmentDialog()
         self.add_installment_win = QtWidgets.QDialog()
         self.ani.setupUi(self.add_installment_win)
+
+    def create_add_new_static_cost_dialog(self):
+        self.asc = AddNewStaticDialog()
+        self.add_static_cost_win = QtWidgets.QDialog()
+        self.asc.setupUi(self.add_static_cost_win)
 
     def create_add_new_salary_dialog(self):
         self.ans = AddNewSalaryDialog()
@@ -119,6 +126,12 @@ class Account(InitialVar, TotalStyleMixin):
         new_salary_details = self.read_data_from_new_salary_form()
         self.query_handler.insert_new_salary(new_salary_details)
         self.add_salary_win.close()
+        self.update_main_window()
+
+    def create_new_static_cost(self):
+        new_static_cost_details = self.read_data_from_new_static_cost_form()
+        self.query_handler.insert_new_static_cost(new_static_cost_details)
+        self.add_static_cost_win.close()
         self.update_main_window()
 
     def create_new_user(self):
@@ -151,6 +164,14 @@ class Account(InitialVar, TotalStyleMixin):
         new_salary_details['description'] = self.ans.description_TE.toPlainText()
         return new_salary_details
 
+    def read_data_from_new_static_cost_form(self):
+        new_static_details = dict()
+        new_static_details['subject'] = self.asc.cost_subject_LE.text()
+        new_static_details['static_user_id'] = self.asc.user_name_list_CB.currentData()
+        new_static_details['total_money'] = self.asc.total_money_QSB.value()
+        new_static_details['description'] = self.asc.description_TE.toPlainText()
+        return new_static_details
+
     def read_data_from_new_payment_form(self):
         new_payment_details = dict()
         new_payment_details['user_id'] = self.anp.user_name_list_CB.currentData()
@@ -179,16 +200,16 @@ class Account(InitialVar, TotalStyleMixin):
         user_list = self.query_handler.get_user_list('شخص')
         self.add_users_to_users_list_cmb(user_list, self.anp.user_name_list_CB)
 
+    def show_new_static_cost_page(self):
+        self.add_static_cost_win.show()
+        user_list = self.query_handler.get_user_list('ثابت')
+        self.add_users_to_users_list_cmb(user_list, self.asc.user_name_list_CB)
+
     @staticmethod
     def add_users_to_users_list_cmb(users_list, qb_object):
         qb_object.clear()
         for each_user in users_list:
             qb_object.addItem(each_user[1], each_user[0])
-
-    def add_users_to_users_list_cmb1(self, users_list):
-        self.ani.office_name_list_CB.clear()
-        for each_user in users_list:
-            self.ani.office_name_list_CB.addItem(each_user[1], each_user[0])
 
     def get_payment_spin_box_value(self):
         total = self.anp.total_money_QSB.value()
@@ -211,6 +232,7 @@ class Account(InitialVar, TotalStyleMixin):
         self.update_creditor_list()
         self.update_installment_list()
         self.update_salary_list()
+        self.update_static_cost_list()
         # unchange each tab , that tab update ,
 
     def update_debtor_list(self):
@@ -240,6 +262,13 @@ class Account(InitialVar, TotalStyleMixin):
         for each_result in result:
             salary_details = self.clear_data_to_insert_qtable_widget(each_result)
             self.add_new_row_to_main_list(self.dlg.all_input_list, salary_details, 'GREEN')
+
+    def update_static_cost_list(self):
+        result = self.query_handler.get_static_cost_list()
+        self.clear_qtable_widget(self.dlg.all_static_output_list)
+        for each_result in result:
+            salary_details = self.clear_data_to_insert_qtable_widget(each_result)
+            self.add_new_row_to_main_list(self.dlg.all_static_output_list, salary_details, 'RED')
 
     def add_new_row_to_main_list(self, obj_name, data, color):
         # obj_name.setRowCount(0)
