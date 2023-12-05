@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>556</width>
-    <height>464</height>
+    <width>553</width>
+    <height>574</height>
    </rect>
   </property>
   <property name="font">
@@ -42,14 +42,59 @@
        <number>0</number>
       </property>
       <widget class="QWidget" name="input_tab">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>300</height>
+        </size>
+       </property>
        <attribute name="title">
         <string>درآمد ها</string>
        </attribute>
-       <layout class="QHBoxLayout" name="horizontalLayout_4">
-        <item>
+       <layout class="QGridLayout" name="gridLayout">
+        <item row="1" column="1">
+         <widget class="QFrame" name="frame">
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>200</height>
+           </size>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout">
+           <item>
+            <widget class="QTreeWidget" name="date_filter"/>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item row="0" column="0" colspan="2">
          <widget class="QTableWidget" name="all_input_list">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>0</height>
+           </size>
+          </property>
           <property name="sizeAdjustPolicy">
            <enum>QAbstractScrollArea::AdjustToContents</enum>
+          </property>
+          <property name="selectionMode">
+           <enum>QAbstractItemView::SingleSelection</enum>
+          </property>
+          <property name="selectionBehavior">
+           <enum>QAbstractItemView::SelectRows</enum>
           </property>
           <property name="sortingEnabled">
            <bool>true</bool>
@@ -109,6 +154,27 @@
           </column>
          </widget>
         </item>
+        <item row="1" column="0">
+         <widget class="QFrame" name="frame_2">
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>200</height>
+           </size>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_2">
+           <item>
+            <widget class="QTreeWidget" name="source_filter"/>
+           </item>
+          </layout>
+         </widget>
+        </item>
        </layout>
       </widget>
       <widget class="QWidget" name="output_tab">
@@ -121,11 +187,20 @@
           <property name="sizeAdjustPolicy">
            <enum>QAbstractScrollArea::AdjustToContents</enum>
           </property>
+          <property name="selectionMode">
+           <enum>QAbstractItemView::SingleSelection</enum>
+          </property>
+          <property name="selectionBehavior">
+           <enum>QAbstractItemView::SelectRows</enum>
+          </property>
           <property name="sortingEnabled">
            <bool>true</bool>
           </property>
-          <attribute name="verticalHeaderStretchLastSection">
+          <attribute name="horizontalHeaderStretchLastSection">
            <bool>true</bool>
+          </attribute>
+          <attribute name="verticalHeaderStretchLastSection">
+           <bool>false</bool>
           </attribute>
           <column>
            <property name="text">
@@ -190,6 +265,12 @@
          <widget class="QTableWidget" name="all_static_output_list">
           <property name="sizeAdjustPolicy">
            <enum>QAbstractScrollArea::AdjustToContents</enum>
+          </property>
+          <property name="selectionMode">
+           <enum>QAbstractItemView::SingleSelection</enum>
+          </property>
+          <property name="selectionBehavior">
+           <enum>QAbstractItemView::SelectRows</enum>
           </property>
           <property name="sortingEnabled">
            <bool>true</bool>
@@ -271,9 +352,18 @@
           <property name="sizeAdjustPolicy">
            <enum>QAbstractScrollArea::AdjustToContents</enum>
           </property>
+          <property name="selectionMode">
+           <enum>QAbstractItemView::SingleSelection</enum>
+          </property>
+          <property name="selectionBehavior">
+           <enum>QAbstractItemView::SelectRows</enum>
+          </property>
           <property name="sortingEnabled">
            <bool>true</bool>
           </property>
+          <attribute name="horizontalHeaderStretchLastSection">
+           <bool>true</bool>
+          </attribute>
           <column>
            <property name="text">
             <string>ردیف</string>
@@ -368,22 +458,21 @@
           <property name="sizeAdjustPolicy">
            <enum>QAbstractScrollArea::AdjustToContents</enum>
           </property>
+          <property name="selectionMode">
+           <enum>QAbstractItemView::SingleSelection</enum>
+          </property>
+          <property name="selectionBehavior">
+           <enum>QAbstractItemView::SelectRows</enum>
+          </property>
           <property name="sortingEnabled">
            <bool>true</bool>
           </property>
+          <attribute name="horizontalHeaderStretchLastSection">
+           <bool>true</bool>
+          </attribute>
           <column>
            <property name="text">
             <string>ردیف</string>
-           </property>
-           <property name="font">
-            <font>
-             <family>B Nazanin</family>
-            </font>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>مبلغ</string>
            </property>
            <property name="font">
             <font>
@@ -403,7 +492,7 @@
           </column>
           <column>
            <property name="text">
-            <string>تاریخ پرداخت</string>
+            <string>مبلغ</string>
            </property>
            <property name="font">
             <font>
@@ -413,7 +502,7 @@
           </column>
           <column>
            <property name="text">
-            <string>آخرین بروز رسانی</string>
+            <string>تاریخ پرداخت</string>
            </property>
            <property name="font">
             <font>
@@ -474,6 +563,9 @@
           <property name="sortingEnabled">
            <bool>true</bool>
           </property>
+          <attribute name="horizontalHeaderStretchLastSection">
+           <bool>true</bool>
+          </attribute>
           <column>
            <property name="text">
             <string>ردیف</string>
@@ -548,6 +640,9 @@
           <property name="sortingEnabled">
            <bool>true</bool>
           </property>
+          <attribute name="horizontalHeaderStretchLastSection">
+           <bool>true</bool>
+          </attribute>
           <column>
            <property name="text">
             <string>ردیف</string>
@@ -601,7 +696,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>556</width>
+     <width>553</width>
      <height>25</height>
     </rect>
    </property>

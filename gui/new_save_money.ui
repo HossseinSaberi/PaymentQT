@@ -94,7 +94,7 @@
     </widget>
    </item>
    <item row="5" column="0">
-    <widget class="QPushButton" name="add_new_cost_QB">
+    <widget class="QPushButton" name="add_new_save_QB">
      <property name="text">
       <string>افزودن</string>
      </property>

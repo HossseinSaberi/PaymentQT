@@ -58,6 +58,7 @@ class InitDB:
         self.create_installment_table()
         self.create_salary_table()
         self.create_static_cost_table()
+        self.create_cost_table()
 
     def create_user_table(self):
         cursor = self.db_conn.cursor()
@@ -137,6 +138,37 @@ class InitDB:
                 CONSTRAINT static_cost_pk PRIMARY KEY (scid),
                 CONSTRAINT static_cost_fk FOREIGN KEY (scid) REFERENCES public.users(uid)
 );
+    """
+        cursor.execute(query)
+
+    def create_cost_table(self):
+        cursor = self.db_conn.cursor()
+        query = """
+            DROP TABLE if exists public."cost";
+            CREATE TABLE public."cost" (
+            cid serial NOT NULL,
+            subject text NOT NULL,
+            total_money int8 NOT NULL,
+            paied_date text NOT NULL,
+            description text NULL,
+            CONSTRAINT cost_pk PRIMARY KEY (cid)
+        );
+    """
+        cursor.execute(query)
+
+    def create_save_money_table(self):
+        cursor = self.db_conn.cursor()
+        query = """
+            DROP TABLE if exists public.save_money;
+            CREATE TABLE public.save_money (
+                smid serial NOT NULL,
+                save_place text NOT NULL,
+                total_money int8 NOT NULL,
+                description text NULL,
+                save_date text NOT NULL,
+                CONSTRAINT save_money_pk PRIMARY KEY (smid)
+            );
+        );
     """
         cursor.execute(query)
 
@@ -274,6 +306,19 @@ class Queries:
             except Exception as e:
                 print(e)
 
+    def insert_new_cost(self, cost_details: dict):
+        with self.db_conn.cursor() as cursor:
+            try:
+                query = """
+                    INSERT INTO public."cost"
+                    (subject, total_money, paied_date, description)
+                    VALUES
+                    ('{}',{},'{}','{}')""".format(cost_details['subject'], cost_details['total_money'],
+                                                   cost_details['pay_date'], cost_details['description'])
+                cursor.execute(query)
+            except Exception as e:
+                print(e)
+
     def insert_new_salary(self, salary_details: dict):
         with self.db_conn.cursor() as cursor:
             try:
@@ -283,6 +328,19 @@ class Queries:
                     VALUES
                     ({},{},'{}')""".format(salary_details['office_id'], salary_details['total_money'],
                                                    salary_details['description'])
+                cursor.execute(query)
+            except Exception as e:
+                print(e)
+
+    def insert_new_save(self, save_details: dict):
+        with self.db_conn.cursor() as cursor:
+            try:
+                query = """
+                    INSERT INTO public.save_money
+                    (save_place, total_money, save_date, description)
+                    VALUES
+                    ('{}',{},'{}','{}')""".format(save_details['save_place'], save_details['total_money'],
+                                                   save_details['save_date'], save_details['description'])
                 cursor.execute(query)
             except Exception as e:
                 print(e)
@@ -344,6 +402,24 @@ class Queries:
                 INNER JOIN users u
                 ON
                 s.static_uid = u.uid
+            """
+            cursor.execute(query)
+            result = cursor.fetchall()
+            return result
+
+    def get_cost_list(self):
+        with self.db_conn.cursor(cursor_factory=extras.DictCursor) as cursor:
+            query = """
+                SELECT c.cid, c.subject, c.total_money, c.paied_date ,  c.description FROM public."cost" c
+            """
+            cursor.execute(query)
+            result = cursor.fetchall()
+            return result
+
+    def get_save_money_list(self):
+        with self.db_conn.cursor(cursor_factory=extras.DictCursor) as cursor:
+            query = """
+                SELECT sm.smid, sm.save_place, sm.total_money, sm.save_date , sm.description FROM public.save_money sm
             """
             cursor.execute(query)
             result = cursor.fetchall()

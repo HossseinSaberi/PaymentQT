@@ -1,5 +1,6 @@
 from PyQt5.QtGui import QColor
 
+
 class TableItemStylingMixin:
     def item_color_styles(self, qtablewidget_obj, color):
         color = self.set_color_by_money_value(qtablewidget_obj, color)
@@ -36,3 +37,20 @@ class ButtonStylingMixin:
 
 class TotalStyleMixin(TableItemStylingMixin, TabStylingMixin, ComboBoxStylingMixin, ButtonStylingMixin):
     pass
+
+
+class RemainderUtilsMixin:
+
+    @staticmethod
+    def get_payment_spin_box_value(total_obj, paied_obj):
+        total = total_obj.value()
+        paied = paied_obj.value()
+        return total, paied
+
+    @staticmethod
+    def calculate_remainder(total_obj, paied_obj):
+        total, paied = RemainderUtilsMixin.get_payment_spin_box_value(total_obj, paied_obj)
+        if paied:
+            total = total - paied
+        return total
+
