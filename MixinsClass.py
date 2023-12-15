@@ -2,10 +2,10 @@ from PyQt5.QtGui import QColor
 
 
 class TableItemStylingMixin:
-    def item_color_styles(self, qtablewidget_obj, color):
-        color = self.set_color_by_money_value(qtablewidget_obj, color)
-        qtablewidget_obj.setForeground(color)
-        return qtablewidget_obj
+    def item_color_styles(self, widget_obj, color):
+        color = self.set_color_by_money_value(widget_obj, color)
+        widget_obj.setForeground(color)
+        return widget_obj
 
     @staticmethod
     def set_color_by_money_value(item, color):

@@ -20,7 +20,7 @@
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff>../icons/liabilities.png</normaloff>../icons/liabilities.png</iconset>
+    <normaloff>../../../../.designer/icons/liabilities.png</normaloff>../../../../.designer/icons/liabilities.png</iconset>
   </property>
   <property name="windowOpacity">
    <double>11.000000000000000</double>
@@ -68,7 +68,51 @@
           </property>
           <layout class="QVBoxLayout" name="verticalLayout">
            <item>
-            <widget class="QTreeWidget" name="date_filter"/>
+            <widget class="QTreeWidget" name="date_filter">
+             <property name="styleSheet">
+              <string notr="true">padding: 8px;
+font: 11pt &quot;B Nazanin&quot;;
+QTreeView::item {
+    padding: 15px;
+	margin: 15px;
+	font: 11pt &quot;B Nazanin&quot;;
+}</string>
+             </property>
+             <property name="autoScrollMargin">
+              <number>20</number>
+             </property>
+             <property name="editTriggers">
+              <set>QAbstractItemView::NoEditTriggers</set>
+             </property>
+             <property name="alternatingRowColors">
+              <bool>true</bool>
+             </property>
+             <property name="indentation">
+              <number>13</number>
+             </property>
+             <property name="animated">
+              <bool>true</bool>
+             </property>
+             <property name="headerHidden">
+              <bool>true</bool>
+             </property>
+             <property name="columnCount">
+              <number>2</number>
+             </property>
+             <attribute name="headerStretchLastSection">
+              <bool>true</bool>
+             </attribute>
+             <column>
+              <property name="text">
+               <string notr="true">1</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string notr="true">2</string>
+              </property>
+             </column>
+            </widget>
            </item>
           </layout>
          </widget>
@@ -101,6 +145,9 @@
           </property>
           <attribute name="horizontalHeaderStretchLastSection">
            <bool>true</bool>
+          </attribute>
+          <attribute name="verticalHeaderStretchLastSection">
+           <bool>false</bool>
           </attribute>
           <column>
            <property name="text">
@@ -170,7 +217,51 @@
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_2">
            <item>
-            <widget class="QTreeWidget" name="source_filter"/>
+            <widget class="QTreeWidget" name="source_filter">
+             <property name="styleSheet">
+              <string notr="true">padding: 8px;
+font: 11pt &quot;B Nazanin&quot;;
+QTreeView::item {
+    padding: 15px;
+	margin: 15px;
+	font: 11pt &quot;B Nazanin&quot;;
+}</string>
+             </property>
+             <property name="frameShadow">
+              <enum>QFrame::Sunken</enum>
+             </property>
+             <property name="lineWidth">
+              <number>1</number>
+             </property>
+             <property name="alternatingRowColors">
+              <bool>true</bool>
+             </property>
+             <property name="indentation">
+              <number>13</number>
+             </property>
+             <property name="animated">
+              <bool>true</bool>
+             </property>
+             <property name="headerHidden">
+              <bool>true</bool>
+             </property>
+             <property name="columnCount">
+              <number>2</number>
+             </property>
+             <attribute name="headerStretchLastSection">
+              <bool>true</bool>
+             </attribute>
+             <column>
+              <property name="text">
+               <string notr="true">1</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string notr="true">2</string>
+              </property>
+             </column>
+            </widget>
            </item>
           </layout>
          </widget>
@@ -278,6 +369,9 @@
           <attribute name="horizontalHeaderStretchLastSection">
            <bool>true</bool>
           </attribute>
+          <attribute name="verticalHeaderStretchLastSection">
+           <bool>false</bool>
+          </attribute>
           <column>
            <property name="text">
             <string>ردیف</string>
@@ -363,6 +457,9 @@
           </property>
           <attribute name="horizontalHeaderStretchLastSection">
            <bool>true</bool>
+          </attribute>
+          <attribute name="verticalHeaderStretchLastSection">
+           <bool>false</bool>
           </attribute>
           <column>
            <property name="text">
@@ -470,6 +567,9 @@
           <attribute name="horizontalHeaderStretchLastSection">
            <bool>true</bool>
           </attribute>
+          <attribute name="verticalHeaderStretchLastSection">
+           <bool>false</bool>
+          </attribute>
           <column>
            <property name="text">
             <string>ردیف</string>
@@ -566,6 +666,9 @@
           <attribute name="horizontalHeaderStretchLastSection">
            <bool>true</bool>
           </attribute>
+          <attribute name="verticalHeaderStretchLastSection">
+           <bool>false</bool>
+          </attribute>
           <column>
            <property name="text">
             <string>ردیف</string>
@@ -642,6 +745,9 @@
           </property>
           <attribute name="horizontalHeaderStretchLastSection">
            <bool>true</bool>
+          </attribute>
+          <attribute name="verticalHeaderStretchLastSection">
+           <bool>false</bool>
           </attribute>
           <column>
            <property name="text">
@@ -742,7 +848,7 @@
   <action name="new_user">
    <property name="icon">
     <iconset>
-     <normaloff>../icons/debt.png</normaloff>../icons/debt.png</iconset>
+     <normaloff>../../../../.designer/icons/debt.png</normaloff>../../../../.designer/icons/debt.png</iconset>
    </property>
    <property name="text">
     <string>طرف حساب جدید</string>

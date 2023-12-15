@@ -425,6 +425,25 @@ class Queries:
             result = cursor.fetchall()
             return result
 
+    def filter_salary_with_date(self, start_year, start_month):
+        with self.db_conn.cursor(cursor_factory=extras.DictCursor) as cursor:
+            query = """
+                SELECT s.first_date , s.total_money from public.salary s where extract(YEAR FROM s.first_date) = {}
+                and extract(MONTH FROM s.first_date) = {}
+            """.format(start_year, start_month)
+            cursor.execute(query)
+            result = cursor.fetchall()
+            return result
+
+    def filter_salary_with_source(self, source_name):
+        with self.db_conn.cursor(cursor_factory=extras.DictCursor) as cursor:
+            query = """
+                SELECT s.first_date , s.total_money from public.salary s inner join public.users u on s.office_id = u.uid where u.full_name = '{}'
+            """.format(source_name)
+            cursor.execute(query)
+            result = cursor.fetchall()
+            return result
+
 
 if __name__ == '__main__':
     # x = DataAccess()

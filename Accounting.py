@@ -4,7 +4,7 @@ from PyQt5 import QtWidgets, QtCore
 from PyQt5.QtCore import Qt
 from DataAccess import Queries, ConnectToDB
 from MixinsClass import TotalStyleMixin
-from Utils import JDateUtils
+from Utils import JDateUtils , CustomItemDelegate
 import functools
 from TabClasses import CostTabDetail, SaveTabDetail, PaymentTabDetail, InstallmentTabDetail, StaticCostTabDetail, SalaryTabDetail, UserTabDetail
 
@@ -51,6 +51,11 @@ class Account(TotalStyleMixin):
         func_instance()
 
     def check_dlg_trigger(self):
+        self.create_page_trigger()
+        self.dlg.account_tab.currentChanged.connect(self.tab_active)
+        self.salary_tab_trigger()
+
+    def create_page_trigger(self):
         self.dlg.new_user.triggered.connect(functools.partial(self.create_page, UserTabDetail))
         self.dlg.new_input.triggered.connect(functools.partial(self.create_page, SalaryTabDetail))
         self.dlg.new_output.triggered.connect(functools.partial(self.create_page, CostTabDetail))
@@ -58,7 +63,67 @@ class Account(TotalStyleMixin):
         self.dlg.new_installment.triggered.connect(functools.partial(self.create_page, InstallmentTabDetail))
         self.dlg.new_saving.triggered.connect(functools.partial(self.create_page, SaveTabDetail))
         self.dlg.new_debt_credit.triggered.connect(functools.partial(self.create_page, PaymentTabDetail))
-        self.dlg.account_tab.currentChanged.connect(self.tab_active)
+
+    def salary_tab_trigger(self):
+        self.dlg.all_input_list.selectionModel().selectionChanged.connect(self.update_salary_tree_filters)
+
+    def update_salary_tree_filters(self, selected, deselected):
+        sender_obj = self.dlg.sender()
+        indexes = sender_obj.selectedRows()
+        if indexes:
+            self.update_source_filter_tree(self.dlg.all_input_list, 1, self.dlg.source_filter, indexes)
+            self.update_date_filter_tree(self.dlg.all_input_list, 3, self.dlg.date_filter, indexes)
+
+
+    def update_date_filter_tree(self, qtw_dlg_object, date_column, qtree_dlg_obj, indexes):
+        self.set_style_for_qtree_widget(qtree_dlg_obj)
+        date_value = qtw_dlg_object.item(indexes[0].row(), date_column)
+        georgian_date_value = JDateUtils.convert_to_gregorian(date_value.text())
+        filter_result = self.query_handler.filter_salary_with_date(georgian_date_value.year, georgian_date_value.month)
+        tree_item = QtWidgets.QTreeWidgetItem(qtree_dlg_obj)
+        total_money = 0
+        month_name = JDateUtils.get_jmonth_name(date_value.text())
+        tree_item.setText(0, month_name)
+        for i in filter_result:
+            child_item = QtWidgets.QTreeWidgetItem(tree_item)
+            jdate = JDateUtils.convert_to_jalali(i[0])
+            child_item.setText(0, str(jdate))
+            child_item.setText(1, str(i[1]))
+            total_money += i[1]
+
+        self.add_q_tree_total_item(qtree_dlg_obj, total_money, 'Green')
+
+    def update_source_filter_tree(self, qtw_dlg_object, date_column, qtree_dlg_obj, indexes):
+        self.set_style_for_qtree_widget(qtree_dlg_obj)
+        office_name = qtw_dlg_object.item(indexes[0].row(), date_column).text()
+        filter_result = self.query_handler.filter_salary_with_source(office_name)
+        tree_item = QtWidgets.QTreeWidgetItem(qtree_dlg_obj)
+        tree_item.setText(0, office_name)
+        total_money = 0
+
+        for i in filter_result:
+            child_item = QtWidgets.QTreeWidgetItem(tree_item)
+            jdate = JDateUtils.convert_to_jalali(i[0])
+            child_item.setText(0, str(jdate))
+            child_item.setText(1, str(i[1]))
+            total_money += i[1]
+        self.add_q_tree_total_item(qtree_dlg_obj, total_money, 'Green')
+
+    def add_q_tree_total_item(self, qtree_obj, total_money, color):
+        line_item = QtWidgets.QTreeWidgetItem()
+        line_item.setFirstColumnSpanned(True)
+        qtree_obj.addTopLevelItem(line_item)
+        sum_item = QtWidgets.QTreeWidgetItem(['جمع کل', str(total_money)])
+        # self.item_color_styles(sum_item, color)
+        qtree_obj.addTopLevelItem(sum_item)
+
+    def set_style_for_qtree_widget(self, qtree_obj):
+        delegate = CustomItemDelegate()
+        qtree_obj.setItemDelegate(delegate)
+        current_style = qtree_obj.styleSheet()
+        qtree_obj.clear()
+        qtree_obj.setStyleSheet(current_style)
+        qtree_obj.header().setSectionResizeMode(QtWidgets.QHeaderView.ResizeToContents)
 
     def create_page(self, class_object):
         self.create_dialog()
@@ -81,34 +146,32 @@ class Account(TotalStyleMixin):
 
     def update_debtor_tab(self):
         debtor_list = self.query_handler.get_debtor_creditor_list('قرض داده شده')
-        self.clear_qtable_widget(self.dlg.all_debtor_list)
         self.add_data_to_qtablewidget(self.dlg.all_debtor_list, debtor_list, 'GREEN')
 
     def update_creditor_tab(self):
         creditor_list = self.query_handler.get_debtor_creditor_list('قرض گرفته شده')
-        self.clear_qtable_widget(self.dlg.all_creditor_list)
         self.add_data_to_qtablewidget(self.dlg.all_creditor_list, creditor_list, 'RED')
 
     def update_salary_tab(self):
         salary_list = self.query_handler.get_salary_list()
-        self.clear_qtable_widget(self.dlg.all_input_list)
         self.add_data_to_qtablewidget(self.dlg.all_input_list, salary_list, 'GREEN')
 
     def update_installment_tab(self):
         installment_list = self.query_handler.get_installment_list()
-        self.clear_qtable_widget(self.dlg.all_installment)
         self.add_data_to_qtablewidget(self.dlg.all_installment, installment_list, 'RED')
 
     def update_static_cost_tab(self):
         static_cost_list = self.query_handler.get_static_cost_list()
-        self.clear_qtable_widget(self.dlg.all_debtor_list)
         self.add_data_to_qtablewidget(self.dlg.all_static_output_list, static_cost_list, 'RED')
 
     def add_data_to_qtablewidget(self, object_name, data_list, color):
         self.clear_qtable_widget(object_name)
         for each_result in data_list:
-            cost_details = self.clear_data_to_insert_qtable_widget(each_result)
-            self.add_new_row_to_main_list(object_name, cost_details, color)
+            details = self.clear_data_to_insert_qtable_widget(each_result)
+            self.add_new_row_to_main_list(object_name, details, color)
+        object_name.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustToContents)
+        object_name.resizeColumnsToContents()
+        object_name.horizontalHeader().setSectionResizeMode(object_name.columnCount() - 1, QtWidgets.QHeaderView.Stretch)
 
     def add_new_row_to_main_list(self, obj_name, data, color):
         row_position = obj_name.rowCount()
@@ -118,9 +181,6 @@ class Account(TotalStyleMixin):
             self.item_color_styles(item, color)
             item.setTextAlignment(Qt.AlignCenter)
             obj_name.setItem(row_position, index, item)
-        obj_name.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustToContents)
-        obj_name.resizeColumnsToContents()
-        obj_name.horizontalHeader().setStretchLastSection(True)
 
     @staticmethod
     def clear_data_to_insert_qtable_widget(data: dict):
